@@ -1,0 +1,86 @@
+name: Build and deploy Koven portal
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [koven-content-updated]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Read reviewed content source
+        id: content
+        run: python3 scripts/resolve_source.py >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.content.outputs.repository }}
+          ref: ${{ steps.content.outputs.ref }}
+          path: .content/koven
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require successful upstream main CI for nightly
+        if: steps.content.outputs.nightly == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_REPOSITORY: ${{ steps.content.outputs.repository }}
+        run: |
+          set -euo pipefail
+          sha=$(git -C .content/koven rev-parse HEAD)
+          git -C .content/koven merge-base --is-ancestor "$sha" origin/main
+          gh api --paginate "repos/$SOURCE_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$sha&event=push&status=success&per_page=100" \
+            --jq '.workflow_runs[] | select(.head_branch == "main") | .id' > "$RUNNER_TEMP/upstream-ci"
+          test -s "$RUNNER_TEMP/upstream-ci"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - name: Test source contracts
+        run: npm test
+        env:
+          KOVEN_SOURCE: .content/koven
+          KOVEN_REF: HEAD
+      - name: Generate content from the checked out commit
+        run: npm run sync-content -- --source .content/koven --ref HEAD
+      - run: npm run build
+      - name: Preserve review build
+        uses: actions/upload-artifact@v7
+        with:
+          name: koven-site
+          path: dist
+      - uses: actions/upload-pages-artifact@v5
+        if: github.event_name != 'pull_request'
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v6
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,62 @@
+[
+  [
+    "overview",
+    "认识 {version}",
+    "15-conformance-and-staging.md",
+    "{version} 启用边界"
+  ],
+  [
+    "constants",
+    "声明与顶层常量",
+    "05-declarations-callables.md",
+    "顶层与关联命名空间的值声明"
+  ],
+  [
+    "companion",
+    "关联成员：companion",
+    "15-conformance-and-staging.md",
+    "Litmus 12: 关联常量与标准库互操作"
+  ],
+  [
+    "capabilities",
+    "相等、哈希与显示",
+    "03-types-generics.md",
+    "值语义能力"
+  ],
+  [
+    "checked",
+    "可恢复的整数运算",
+    "04-expressions-operators.md",
+    "checked 运算变体"
+  ],
+  [
+    "result",
+    "使用 Result",
+    "09-nullability-errors.md",
+    "`Result` 必须被使用"
+  ],
+  [
+    "capture",
+    "闭包的可变捕获",
+    "07-calls-lambdas-closures.md",
+    "Mutating Closure"
+  ],
+  [
+    "destructuring",
+    "按字段名解构",
+    "11-copyability-layout-construction.md",
+    "局部结构化解构"
+  ],
+  [
+    "abort",
+    "Abort 的输出约定",
+    "09-nullability-errors.md",
+    "Abort 输出合同"
+  ],
+  [
+    "threads",
+    "线程与 Channel",
+    "13-program-runtime-standard-library.md",
+    "线程、Channel 与 Move Closure"
+  ]
+]
