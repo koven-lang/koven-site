@@ -13,11 +13,14 @@
 2026-10-22 用户追加按里程碑持续实施，覆盖范围内且依赖完备的 Spec 及分支／PR 交付；
 不自动授权修改语言来源版本、上线新服务或开放执行未经隔离的源码。
 
-Spec 编号本仓库独立，首次正式立项从未占用编号开始；当前只登记候选主题，不建占位编号。
+Spec 编号本仓库独立；正式合同在 docs/inventory.json 登记 ID→路径，正文首行 metadata 是状态真源。
+候选主题不分配编号，不建空占位 Spec。
 生命周期 draft → approved → in-progress → done；done／superseded 归档到 docs/archive/specs。
 草案、active 分别放 docs/specs/drafts、docs/specs/active；索引随路径变化更新，不删除历史失败证据。
 里程碑 draft／approved／in-progress／completed，取消或延期保留理由与后继归属。
-近期里程碑统一记录在索引正文；拆页时迁移链接，不维护重复状态账本。
+正式里程碑放 docs/milestones/drafts 或 active，完成／取消归入 docs/archive/milestones；
+只在正文 metadata 维护状态，索引链接正文。尚未细化的远期规划保留在索引，不充当正式合同。
+渐进立项可以先登记一份 Spec；关闭里程碑时至少两份真实 Spec 且全部完成，不能以空占位合同凑数。
 
 ## 必填合同
 
@@ -32,6 +35,9 @@ Spec：主里程碑、单一目标、行为、接口／版本、失败场景、�
 ## 验证
 
 内容生成相关修改运行 npm test；页面实现运行 npm run build，交互另验移动端、键盘、深链接、深色及 reduced-motion。
-文档修改检查所有本地链接与 git diff --check。当前尚无网站 Spec 生命周期自动门禁；
-正式增加／迁移 Spec 时先在对应治理 Spec 建立检查，不能声称本页已提供机器执行保护。
+文档修改运行 npm run check-docs 与 git diff --check。检查器核库存双向覆盖、唯一身份／路径、状态目录、
+归属、无环同类依赖、存在的证据与本地链接／锚点；检查器不访问外部仓库，也不证明证据内容真实。
+approved／in-progress Spec 必须无 blocker 且本地前置 done；跨仓库前置按原规则人工核实。
+检查器复用编辑器仓库固定提交 17f0f1b2 的标准库实现，网站只适配 ID、渐进立项和活动前置检查。
+实现边界与命令见 [文档门禁架构](../architecture/documentation-gate.md)。
 里程碑只在所有必需子项完成且真实联合验收通过后 completed。
