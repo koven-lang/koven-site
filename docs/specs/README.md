@@ -1,11 +1,16 @@
 # 网站 Spec 入口
 
-当前没有正式分配的 Spec 编号。按 [治理](../development/governance.md)和 [里程碑](../milestones/README.md)逐片细化。
+正式合同：
+
+- [SPEC-0001：文档库存与生命周期门禁](../archive/specs/0001.md)。
+- [Spec 模板](template.md)和 [里程碑模板](../milestones/template.md)。
+
+其余主题按 [治理](../development/governance.md)和 [里程碑](../milestones/README.md)逐片细化。
 已有门户是基线事实，不追认为下列候选 Spec 已完成；纯文档治理本轮不建立空功能 Spec。
 
 | 排序 | 候选主题 | 主里程碑 | 前置／最小验收 |
 |---|---|---|---|
-| 1 | 文档生命周期结构门禁 | SITE-V1-M0 | 正式 Spec 迁移前落实；核唯一 ID、归属、依赖、证据和路径 |
+| 1 | 已绑定 SPEC-0001，状态见正文 | SITE-V1-M0 | 库存／生命周期／依赖／证据及 CI 接线 |
 | 2 | API 文档产物消费 | SITE-V1-M1 | 上游冻结产物合同；用真实产物验证搜索、签名、版本及源码链接 |
 | 3 | 可执行示例链接与去重 | SITE-V1-M1 | 上游案例身份；不复制维护源码／预期输出 |
 | 4 | Playground 执行前端 | SITE-V1-M2 | 服务版本与隔离验收；真实结果、stdin／参数、诊断及超限 |

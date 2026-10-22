@@ -13,3 +13,6 @@
 
 生态功能先读 [治理](docs/development/governance.md)、[里程碑](docs/milestones/README.md)和 [Spec 入口](docs/specs/README.md)。
 各 Spec 只有一个主里程碑；上游合同只引用，不复制状态。必需子项与真实联合验收完成后才能关闭里程碑。
+
+正式文档状态只写正文 metadata，docs/inventory.json 只登记 ID 与路径；文档变更运行 `npm run check-docs`。
+Spec／里程碑归档必须同步库存和本地引用；机器门禁不代替跨仓库真实验收。
