@@ -8,3 +8,8 @@
 - `npm test` 验生成器；指定 `KOVEN_SOURCE` 与 `KOVEN_REF` 时核真实库存。`npm run build` 验类型与产物。
 - 修改交互后验证手机宽度、键盘导航、深链接、深色主题与 reduced-motion。
 - 不提交缓存、依赖目录、截图、日志或本地路径；不将语言规则复制到站点文案。
+
+## 里程碑与 Spec
+
+生态功能先读 [治理](docs/development/governance.md)、[里程碑](docs/milestones/README.md)和 [Spec 入口](docs/specs/README.md)。
+各 Spec 只有一个主里程碑；上游合同只引用，不复制状态。必需子项与真实联合验收完成后才能关闭里程碑。
