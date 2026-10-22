@@ -8,8 +8,27 @@ import re
 import shlex
 import subprocess
 
+from resolve_source import repository_url
+
 SITE = Path(__file__).resolve().parents[1]
-REPO = 'https://github.com/Halckon/koven'
+
+
+def configured_repository():
+    config = json.loads((SITE / 'content-source.json').read_text())
+    return repository_url(config['repository'])
+
+
+def source_repository(root):
+    """Check origin before labeling imported bytes with the configured repository."""
+    expected = configured_repository()
+    remote = subprocess.run(['git', '-C', str(root), 'remote', 'get-url', 'origin'],
+                            capture_output=True, text=True)
+    match = re.fullmatch(r'(?:https://github\.com/|git@github\.com:|ssh://git@github\.com/)'
+                         r'([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+?)(?:\.git)?/?',
+                         remote.stdout.strip(), re.I)
+    if remote.returncode or not match or repository_url(match[1]).casefold() != expected.casefold():
+        raise ValueError('source origin does not match configured GitHub repository')
+    return expected
 
 
 def fences(text):
@@ -45,6 +64,9 @@ def design_lessons(pages, version):
 
 
 def validate_snapshot(data):
+    actual = data['source']['repository']
+    if not isinstance(actual, str) or actual.casefold() != configured_repository().casefold():
+        raise ValueError('snapshot repository differs from configured repository')
     if design_lessons(data['specPages'], data['source']['version']) != data['designLessons']:
         raise ValueError('design curriculum changed; regenerate content before building')
     for page in data['specPages']:
@@ -96,6 +118,7 @@ def examples(rows, sources):
 
 
 def generate(root, ref):
+    repository = source_repository(root)
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args]).decode('utf-8')
     revision = git('rev-parse', '--verify', ref + '^{commit}').strip()
@@ -128,7 +151,7 @@ def generate(root, ref):
         prose = re.sub(r'^```koven [a-z0-9-]+\n.*?^```\n?', '', body, flags=re.M | re.S).strip()
         chapters.append({'id': chapter_id, 'markdown': prose, 'path': tutorial_path})
     roadmap = json.loads(read('docs/roadmap/v1.json'))
-    return {'source': {'repository': REPO, 'ref': ref, 'revision': revision,
+    return {'source': {'repository': repository, 'ref': ref, 'revision': revision,
                        'version': version_match[1], 'hashes': hashes},
             'chapters': chapters, 'examples': examples(inventory['examples'], fences(tutorial)),
             'specPages': spec_pages, 'designLessons': design_lessons(spec_pages, version_match[1]),

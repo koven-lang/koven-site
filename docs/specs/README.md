@@ -3,6 +3,7 @@
 正式合同：
 
 - [SPEC-0001：文档库存与生命周期门禁](../archive/specs/0001.md)。
+- [SPEC-0002：内容来源仓库身份一致性](active/0002.md)。
 - [Spec 模板](template.md)和 [里程碑模板](../milestones/template.md)。
 
 其余主题按 [治理](../development/governance.md)和 [里程碑](../milestones/README.md)逐片细化。

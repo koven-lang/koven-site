@@ -1,4 +1,4 @@
-<!-- metadata: {"id": "SITE-V1-M0", "kind": "milestone", "status": "in-progress", "specs": ["SPEC-0001"], "depends_on": [], "blockers": [], "evidence": []} -->
+<!-- metadata: {"id": "SITE-V1-M0", "kind": "milestone", "status": "in-progress", "specs": ["SPEC-0001", "SPEC-0002"], "depends_on": [], "blockers": [], "evidence": []} -->
 # SITE-V1-M0：治理与来源合同
 
 ## 目标
@@ -8,7 +8,8 @@
 ## 范围
 
 - [SPEC-0001 文档库存与生命周期门禁](../../archive/specs/0001.md)。
-- 后续来源／兼容联合合同保留候选，不预占编号；按实际生产方输入冻结后再立项。
+- [SPEC-0002 内容来源仓库身份一致性](../../specs/active/0002.md)。
+- 工具链兼容联合合同仍保留候选，待生产方真实输入后立项。
 
 ## 非目标
 

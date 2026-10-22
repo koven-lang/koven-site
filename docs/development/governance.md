@@ -39,5 +39,6 @@ Spec：主里程碑、单一目标、行为、接口／版本、失败场景、�
 归属、无环同类依赖、存在的证据与本地链接／锚点；检查器不访问外部仓库，也不证明证据内容真实。
 approved／in-progress Spec 必须无 blocker 且本地前置 done；跨仓库前置按原规则人工核实。
 检查器复用编辑器仓库固定提交 17f0f1b2 的标准库实现，网站只适配 ID、渐进立项和活动前置检查。
-实现边界与命令见 [文档门禁架构](../architecture/documentation-gate.md)。
+实现边界与命令见 [文档门禁架构](../architecture/documentation-gate.md)；来源声明见
+[内容来源仓库身份](../architecture/source-identity.md)。
 里程碑只在所有必需子项完成且真实联合验收通过后 completed。

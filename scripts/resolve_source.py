@@ -5,10 +5,15 @@ from pathlib import Path
 import re
 
 
+def repository_url(repository):
+    if not isinstance(repository, str) or not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
+        raise ValueError('invalid configured repository')
+    return 'https://github.com/' + repository
+
+
 def resolve(config, event_name, event):
     repository, ref = config['repository'], config['ref']
-    if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
-        raise ValueError('invalid configured repository')
+    repository_url(repository)
     if not re.fullmatch(r'[A-Za-z0-9_./-]+', ref) or ref.startswith('-'):
         raise ValueError('invalid configured ref')
     nightly = ref == 'main'
