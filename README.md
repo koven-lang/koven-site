@@ -55,3 +55,7 @@ hash 路由与相对资源路径支持根域名和 GitHub Pages 子路径。确�
 不把 Gleam 的浏览器执行能力作为本项目已提供功能。
 
 详见 [交付说明](docs/delivery.md)。
+
+## 生态开发治理
+
+[网站里程碑](docs/milestones/README.md)组织后续文档、Playground 与练习功能；[Spec 入口](docs/specs/README.md)记录候选合同。实施遵循 [治理](docs/development/governance.md)，不因规划存在而宣称功能已实现。
