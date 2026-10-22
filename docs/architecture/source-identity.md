@@ -14,4 +14,4 @@ GitHub HTTPS、scp SSH、ssh URL 和可选 `.git` 后缀，按不区分大小写
 
 该检查证明的是配置／checkout／声明的一致性，不是签名、仓库所有权认证、main 成员资格、
 已发布工具链或网站／编译器兼容性证明；nightly 的 main CI 门禁仍由原工作流单独执行。
-合同与验收见 [SPEC-0002](../specs/active/0002.md)。
+合同与验收见 [SPEC-0002](../archive/specs/0002.md)。
