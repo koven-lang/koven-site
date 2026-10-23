@@ -3117,5 +3117,80 @@
         "title": "协程/async 与自举"
       }
     ]
+  },
+  "api": {
+    "source": {
+      "repository": "https://github.com/Halckon/koven",
+      "revision": "3386e49ece074bafb4cbe78ad24c3dae15034d13"
+    },
+    "artifact": {
+      "schema": "koven.api-examples",
+      "version": 1,
+      "guideVersion": "0.45",
+      "compilerSha256": "cf90910c1971687364575c108acdf5a8d3a9155578ee2225872aaa3996ba8b31",
+      "tutorial": "docs/tutorials/koven-tour.md",
+      "entries": [
+        {
+          "example": "function",
+          "file": "source.ko",
+          "function": "greeting",
+          "sourceFence": "function",
+          "sourceSha256": "8bfd7c1edf0dbc7731f3ad6799b81fc41fb7e8bc8e4b91ba4a6068adb78e6e0e",
+          "declaration": {
+            "location": {
+              "column": 1,
+              "endByte": 35,
+              "line": 1,
+              "startByte": 0
+            },
+            "name": "greeting",
+            "parameters": [],
+            "signature": "fun greeting(): String"
+          },
+          "compilerVersion": "0.1.0"
+        },
+        {
+          "example": "borrowing",
+          "file": "source.ko",
+          "function": "inspect",
+          "sourceFence": "borrowing",
+          "sourceSha256": "a0887b4857144153daa6d21dcd60ca57ff55806416bdbda507c48ec3cd41ae63",
+          "declaration": {
+            "location": {
+              "column": 1,
+              "endByte": 81,
+              "line": 2,
+              "startByte": 29
+            },
+            "name": "inspect",
+            "parameters": [
+              {
+                "location": {
+                  "column": 13,
+                  "endByte": 45,
+                  "line": 2,
+                  "startByte": 41
+                },
+                "mode": "default",
+                "name": "cell",
+                "type": "Cell"
+              }
+            ],
+            "signature": "fun inspect(cell: Cell): Unit"
+          },
+          "compilerVersion": "0.1.0"
+        }
+      ]
+    },
+    "links": [
+      {
+        "source": "https://github.com/Halckon/koven/blob/3386e49ece074bafb4cbe78ad24c3dae15034d13/docs/tutorials/koven-tour.md#L31",
+        "example": "https://github.com/Halckon/koven/blob/3386e49ece074bafb4cbe78ad24c3dae15034d13/docs/tutorials/koven-tour.md#L31"
+      },
+      {
+        "source": "https://github.com/Halckon/koven/blob/3386e49ece074bafb4cbe78ad24c3dae15034d13/docs/tutorials/koven-tour.md#L60",
+        "example": "https://github.com/Halckon/koven/blob/3386e49ece074bafb4cbe78ad24c3dae15034d13/docs/tutorials/koven-tour.md#L59"
+      }
+    ]
   }
 }

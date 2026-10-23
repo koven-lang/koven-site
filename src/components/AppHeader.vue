@@ -3,7 +3,7 @@ import {ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {REPO} from '@/data/config'
 
-const nav = [{to: '/', label: '首页'}, {to: '/tour', label: '语言导览'}, {to: '/spec', label: '规范'}, {
+const nav = [{to: '/', label: '首页'}, {to: '/tour', label: '语言导览'}, {to: '/spec', label: '规范'}, {to: '/api', label: 'API'}, {
   to: '/roadmap',
   label: '路线图'
 }]
@@ -123,4 +123,8 @@ nav a:hover::after, nav a.on::after {
 
 <style scoped>
 @media(max-width:390px){nav a{font-size:12px}nav{gap:8px}.logo{font-size:18px}.tg{padding:5px 8px}.w{gap:7px}}
+</style>
+
+<style scoped>
+@media(max-width:640px){.w{height:auto;min-height:58px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}nav{order:3;flex-basis:100%;justify-content:space-between}.tg{margin-left:auto}}
 </style>

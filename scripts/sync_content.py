@@ -64,6 +64,9 @@ def design_lessons(pages, version):
 
 
 def validate_snapshot(data):
+    if "api" in data:
+        from api_snapshot import validate
+        validate(data["api"])
     actual = data['source']['repository']
     if not isinstance(actual, str) or actual.casefold() != configured_repository().casefold():
         raise ValueError('snapshot repository differs from configured repository')
@@ -163,16 +166,23 @@ if __name__ == '__main__':
     parser.add_argument('--source', type=Path)
     parser.add_argument('--ref', help='main for nightly, a tag for stable, or an explicitly selected design revision')
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--api-source', type=Path)
+    parser.add_argument('--api-artifact', type=Path)
     parser.add_argument('--validate-snapshot', action='store_true')
     args = parser.parse_args()
     destination = SITE / 'src/data/generated.json'
     if args.validate_snapshot:
+        from api_snapshot import load
+        load()
         validate_snapshot(json.loads(destination.read_text()))
         print('snapshot and design sections verified')
         raise SystemExit(0)
     if not args.source or not args.ref:
         parser.error('--source and --ref are required for synchronization')
-    content = json.dumps(generate(args.source, args.ref), ensure_ascii=False, indent=2) + '\n'
+    from api_snapshot import load
+    data = generate(args.source, args.ref)
+    data['api'] = load(args.api_source, args.api_artifact)
+    content = json.dumps(data, ensure_ascii=False, indent=2) + '\n'
     if args.check:
         if not destination.exists() or destination.read_text() != content:
             raise SystemExit('generated content is stale; run sync-content')

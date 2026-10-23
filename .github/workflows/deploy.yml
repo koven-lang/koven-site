@@ -44,6 +44,22 @@ jobs:
           gh api --paginate "repos/$SOURCE_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$sha&event=push&status=success&per_page=100" \
             --jq '.workflow_runs[] | select(.head_branch == "main") | .id' > "$RUNNER_TEMP/upstream-ci"
           test -s "$RUNNER_TEMP/upstream-ci"
+      - name: Read pinned API source
+        id: api
+        run: |
+          python3 - <<'PYCODE' >> "$GITHUB_OUTPUT"
+          import json
+          config = json.load(open('api-source.json'))
+          print('repository=' + config['repository'])
+          print('revision=' + config['revision'])
+          PYCODE
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.api.outputs.repository }}
+          ref: ${{ steps.api.outputs.revision }}
+          path: .content/api
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
@@ -59,8 +75,9 @@ jobs:
         env:
           KOVEN_SOURCE: .content/koven
           KOVEN_REF: HEAD
+          KOVEN_API_SOURCE: .content/api
       - name: Generate content from the checked out commit
-        run: npm run sync-content -- --source .content/koven --ref HEAD
+        run: npm run sync-content -- --source .content/koven --ref HEAD --api-source .content/api
       - run: npm run build
       - name: Preserve review build
         uses: actions/upload-artifact@v7
