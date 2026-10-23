@@ -4,7 +4,7 @@ import {source} from '@/data/tour'
 </script>
 <template>
   <footer>
-    <div class="w"><span>Koven · {{ source.version }} · {{ source.revision.slice(0, 8) }}</span><span><a :href="REPO" target="_blank" rel="noopener">GitHub</a> · <RouterLink
+    <div class="w"><span>Koven · 规范快照 {{ source.version }} · {{ source.revision.slice(0, 8) }}</span><span><a :href="REPO" target="_blank" rel="noopener">GitHub</a> · <RouterLink
         to="/tour">导览</RouterLink> · <RouterLink to="/spec">规范</RouterLink> · <a href="./koven-content-license.txt" target="_blank" rel="noopener">MIT</a></span></div>
   </footer>
 </template>

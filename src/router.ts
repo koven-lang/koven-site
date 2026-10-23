@@ -5,6 +5,7 @@ export default createRouter({
     routes: [
         {path: '/', component: () => import('@/views/HomeView.vue')},
         {path: '/tour/:step?', component: () => import('@/views/TourView.vue')},
+        {path: '/api', component: () => import('@/views/ApiView.vue')},
         {path: '/spec', component: () => import('@/views/SpecView.vue')},
         {path: '/roadmap', component: () => import('@/views/RoadmapView.vue')},
         {path: '/:pathMatch(.*)*', redirect: '/'},
