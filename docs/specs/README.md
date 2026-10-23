@@ -2,7 +2,7 @@
 
 正式合同：
 
-- [SPEC-0003：API 参考首片](active/0003.md)。
+- [SPEC-0003：API 参考首片](../archive/specs/0003.md)。
 
 - [SPEC-0001：文档库存与生命周期门禁](../archive/specs/0001.md)。
 - [SPEC-0002：内容来源仓库身份一致性](../archive/specs/0002.md)。
