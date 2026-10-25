@@ -1,5 +1,5 @@
 {
   "repository": "Halckon/koven",
-  "ref": "acfacca31a5f43d9999c018bcb1f29d3bd786c6f",
-  "note": "Guide v0.46 已启用的设计快照；该版本合入 main 后将 ref 改为 main。稳定版改为已存在的发布 tag。"
+  "ref": "main",
+  "note": "Guide/Tour 使用通过 main push CI 验证的最新 main；API 示例仍由 api-source.json 独立固定。"
 }
