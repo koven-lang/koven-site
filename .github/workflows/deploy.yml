@@ -18,6 +18,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      source_repository: ${{ steps.content.outputs.repository }}
+      source_sha: ${{ steps.source_identity.outputs.sha }}
+      nightly: ${{ steps.content.outputs.nightly }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -32,18 +36,16 @@ jobs:
           path: .content/koven
           fetch-depth: 0
           persist-credentials: false
-      - name: Require successful upstream main CI for nightly
+      - name: Capture source identity
+        id: source_identity
+        run: echo "sha=$(git -C .content/koven rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Require fresh successful upstream main CI
         if: steps.content.outputs.nightly == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_REPOSITORY: ${{ steps.content.outputs.repository }}
-        run: |
-          set -euo pipefail
-          sha=$(git -C .content/koven rev-parse HEAD)
-          git -C .content/koven merge-base --is-ancestor "$sha" origin/main
-          gh api --paginate "repos/$SOURCE_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$sha&event=push&status=success&per_page=100" \
-            --jq '.workflow_runs[] | select(.head_branch == "main") | .id' > "$RUNNER_TEMP/upstream-ci"
-          test -s "$RUNNER_TEMP/upstream-ci"
+          SOURCE_SHA: ${{ steps.source_identity.outputs.sha }}
+        run: python3 scripts/check_upstream.py "$SOURCE_REPOSITORY" "$SOURCE_SHA"
       - name: Read pinned API source
         id: api
         run: |
@@ -94,12 +96,23 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Recheck freshness immediately before Pages deployment
+        if: needs.build.outputs.nightly == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_REPOSITORY: ${{ needs.build.outputs.source_repository }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+        run: python3 scripts/check_upstream.py "$SOURCE_REPOSITORY" "$SOURCE_SHA"
       - uses: actions/configure-pages@v6
       - id: deployment
         uses: actions/deploy-pages@v5
