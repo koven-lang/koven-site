@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
+import {tourPath} from '@/site'
 import CodeBlock from '@/components/CodeBlock.vue'
 import {features, snippets, gettingStarted} from '@/data/home'
 import {source, sourceUrl} from '@/data/tour'
@@ -14,14 +15,14 @@ const current = computed(() => snippets[active.value])
           <span class="eyebrow">KOVEN / A LANGUAGE IN THE MAKING</span>
           <h1>熟悉的表达。<br><span>明确的所有权。</span></h1>
           <p class="lead">一门采用 Kotlin 风格语法的原生编译语言。<br class="desktop">从一段小程序开始，理解值如何传递、借用与释放。</p>
-          <div class="cta"><RouterLink class="btn p" to="/tour">开始语言导览 <span>→</span></RouterLink><RouterLink class="text-link" to="/spec">阅读语言规范 ↗</RouterLink></div>
+          <div class="cta"><RouterLink class="btn p" to="/tour/">开始语言导览 <span>→</span></RouterLink><RouterLink class="text-link" to="/spec/">阅读语言规范 ↗</RouterLink></div>
           <p class="version-note"><span class="dot"/> {{ source.version }} 设计基线 · 编译器持续实现中</p>
         </div>
         <div class="hero-example">
           <div class="example-heading"><span>一点代码，认识 Koven</span><span class="code-mark">{ k }</span></div>
           <div class="tabs" aria-label="示例选择"><button v-for="(snippet, i) in snippets" :key="snippet.id" :class="{on: active === i}" :aria-pressed="active === i" @click="active = i">{{ snippet.title }}</button></div>
           <CodeBlock :code="current.code" file="source.ko"/>
-          <div class="example-footer"><span>源码取自主仓库 Tour</span><RouterLink :to="`/tour/${current.id}?mode=practice`">逐步阅读 →</RouterLink></div>
+          <div class="example-footer"><span>源码取自主仓库 Tour</span><RouterLink :to="tourPath(current.id, 'practice')">逐步阅读 →</RouterLink></div>
         </div>
       </div>
     </section>
@@ -32,10 +33,10 @@ const current = computed(() => snippets[active.value])
       </div>
     </section>
     <section class="learning">
-      <div class="w learning-grid"><div><span class="eyebrow">SMALL STEPS, REAL SOURCE</span><h2>设计可以向前。<br>示例需要有据可查。</h2><p>Tour 提供两条互相连接的路径：理解最新语言设计，以及运行主仓库维护的实例。每一页都能回到对应版本的源码。</p><RouterLink class="text-link" to="/tour/argv-word-frequency?mode=practice">试试 Map 词频统计 →</RouterLink></div><div class="learning-list"><RouterLink to="/tour/overview"><b>语言设计</b><span>{{ source.version }} Guide 摘选与新规则</span><i>01</i></RouterLink><RouterLink to="/tour/hello?mode=practice"><b>动手入门</b><span>源码、运行命令与预期输出</span><i>02</i></RouterLink><RouterLink to="/tour/reject-ownership?mode=practice"><b>读懂诊断</b><span>查看编译器应当拒绝的程序</span><i>03</i></RouterLink></div></div>
+      <div class="w learning-grid"><div><span class="eyebrow">SMALL STEPS, REAL SOURCE</span><h2>设计可以向前。<br>示例需要有据可查。</h2><p>Tour 提供两条互相连接的路径：理解最新语言设计，以及运行主仓库维护的实例。每一页都能回到对应版本的源码。</p><RouterLink class="text-link" to="/tour/practice/argv-word-frequency/">试试 Map 词频统计 →</RouterLink></div><div class="learning-list"><RouterLink to="/tour/"><b>语言设计</b><span>{{ source.version }} Guide 摘选与新规则</span><i>01</i></RouterLink><RouterLink to="/tour/practice/hello/"><b>动手入门</b><span>源码、运行命令与预期输出</span><i>02</i></RouterLink><RouterLink to="/tour/practice/reject-ownership/"><b>读懂诊断</b><span>查看编译器应当拒绝的程序</span><i>03</i></RouterLink></div></div>
     </section>
-    <section class="resources"><div class="w"><div class="section-heading"><span class="eyebrow">KEEP EXPLORING</span><h2>从这里，走得更远。</h2></div><div class="resource-grid"><a :href="gettingStarted" target="_blank" rel="noopener"><h3>安装与构建 ↗</h3><p>环境准备、编译器构建与命令行入口。</p></a><RouterLink to="/spec"><h3>语言参考 →</h3><p>15 个领域，查阅完整规则与相邻概念。</p></RouterLink><RouterLink to="/roadmap"><h3>实现路线图 →</h3><p>了解已交付基线、实施阶段与后续边界。</p></RouterLink><a :href="sourceUrl('docs/architecture/guide-conformance.md')" target="_blank" rel="noopener"><h3>实现覆盖 ↗</h3><p>从设计承诺追溯当前实现证据。</p></a></div></div></section>
-    <section class="closing"><div class="w"><span class="eyebrow">LET’S WRITE SOME KOVEN</span><h2>从 Hello 开始。</h2><RouterLink class="btn p" to="/tour/hello?mode=practice">进入动手入门 →</RouterLink></div></section>
+    <section class="resources"><div class="w"><div class="section-heading"><span class="eyebrow">KEEP EXPLORING</span><h2>从这里，走得更远。</h2></div><div class="resource-grid"><a :href="gettingStarted" target="_blank" rel="noopener"><h3>安装与构建 ↗</h3><p>环境准备、编译器构建与命令行入口。</p></a><RouterLink to="/spec/"><h3>语言参考 →</h3><p>15 个领域，查阅完整规则与相邻概念。</p></RouterLink><RouterLink to="/roadmap/"><h3>实现路线图 →</h3><p>了解已交付基线、实施阶段与后续边界。</p></RouterLink><a :href="sourceUrl('docs/architecture/guide-conformance.md')" target="_blank" rel="noopener"><h3>实现覆盖 ↗</h3><p>从设计承诺追溯当前实现证据。</p></a></div></div></section>
+    <section class="closing"><div class="w"><span class="eyebrow">LET’S WRITE SOME KOVEN</span><h2>从 Hello 开始。</h2><RouterLink class="btn p" to="/tour/practice/hello/">进入动手入门 →</RouterLink></div></section>
   </main>
 </template>
 <style scoped>

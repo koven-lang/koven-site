@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import {tourPath} from '@/site'
 import CodeBlock from '@/components/CodeBlock.vue'
 import MarkdownContent from '@/components/MarkdownContent.vue'
 import {chapters, designLessons, source, sourceUrl} from '@/data/tour'
 const route = useRoute(), router = useRouter()
-const menuOpen = ref(false), caseIndex = ref(0)
-const mode = computed(() => route.query.mode === 'practice' ? 'practice' : 'design')
+const menuOpen = ref(false), ready = ref(false), caseIndex = ref(0)
+const mode = computed(() => route.meta.tour?.mode ?? 'design')
 const lessons = computed(() => mode.value === 'practice' ? chapters : designLessons)
-const idx = computed(() => {
-  const step = String(route.params.step || '')
-  const byId = lessons.value.findIndex(ch => ch.id === step)
-  if (byId >= 0) return byId
-  const legacy = /^\d+$/.test(step) ? Number(step) - 1 : 0
-  return Math.max(0, Math.min(legacy, lessons.value.length - 1))
-})
+const idx = computed(() => Math.max(0, lessons.value.findIndex(ch => ch.id === route.meta.tour?.id)))
 const lesson = computed(() => lessons.value[idx.value])
 const example = computed(() => mode.value === 'practice' ? chapters[idx.value].example : undefined)
 const selectedCase = computed(() => example.value?.cases[caseIndex.value])
-const link = (id: string, selectedMode = mode.value) => ({path: `/tour/${id}`, query: {mode: selectedMode}})
+const link = (id: string, selectedMode = mode.value) => tourPath(id, selectedMode)
 const go = (i: number) => { if (i >= 0 && i < lessons.value.length) router.push(link(lessons.value[i].id)) }
 watch(() => route.fullPath, () => { menuOpen.value = false; caseIndex.value = 0 })
 const onKey = (event: KeyboardEvent) => {
@@ -28,11 +23,14 @@ const onKey = (event: KeyboardEvent) => {
     event.preventDefault(); go(idx.value + (event.key === 'ArrowRight' ? 1 : -1))
   }
 }
-onMounted(() => window.addEventListener('keydown', onKey))
+onMounted(() => {
+  ready.value = true
+  window.addEventListener('keydown', onKey)
+})
 onUnmounted(() => window.removeEventListener('keydown', onKey))
 </script>
 <template>
-  <div class="w tour">
+  <div class="w tour" :class="{ ready }">
     <aside>
       <div class="tour-brand">THE KOVEN TOUR <span>{{ source.version }}</span></div>
       <div class="mode-switch" aria-label="学习路径">
@@ -45,7 +43,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
           <span>{{ String(i + 1).padStart(2, '0') }}</span>{{ item.title }}
         </RouterLink>
       </nav>
-      <RouterLink to="/spec" class="reference">查阅完整语言规范 ↗</RouterLink>
+      <RouterLink to="/spec/" class="reference">查阅完整语言规范 ↗</RouterLink>
     </aside>
     <main class="lesson">
       <div class="eyebrow">{{ mode === 'design' ? '理解语言 / DESIGN' : '从源码开始 / PRACTICE' }} <span>{{ idx + 1 }} / {{ lessons.length }}</span></div>
@@ -69,7 +67,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
         <div v-if="example.diagnostics.length" class="diagnostics"><h2>预期诊断</h2><div v-for="(diagnostic, i) in example.diagnostics" :key="i"><code>{{ diagnostic.code }}</code><p>{{ diagnostic.message }}</p></div></div>
       </template>
       <a class="source-link" :href="sourceUrl(lesson.path)" target="_blank" rel="noopener">阅读主仓库原文 ↗ · {{ source.revision.slice(0, 8) }}</a>
-      <div class="pager"><button class="btn" :disabled="idx === 0" @click="go(idx - 1)">← 上一章</button><RouterLink v-if="idx === lessons.length - 1" class="btn p" :to="mode === 'design' ? link('hello', 'practice') : '/spec'">{{ mode === 'design' ? '开始动手 →' : '继续查阅规范 →' }}</RouterLink><button v-else class="btn p" @click="go(idx + 1)">下一章 →</button></div>
+      <div class="pager"><RouterLink v-if="idx > 0" class="btn" :to="link(lessons[idx - 1].id)">← 上一章</RouterLink><button v-else class="btn" disabled>← 上一章</button><RouterLink v-if="idx === lessons.length - 1" class="btn p" :to="mode === 'design' ? link('hello', 'practice') : '/spec/'">{{ mode === 'design' ? '开始动手 →' : '继续查阅规范 →' }}</RouterLink><RouterLink v-else class="btn p" :to="link(lessons[idx + 1].id)">下一章 →</RouterLink></div>
     </main>
   </div>
 </template>
@@ -80,5 +78,5 @@ aside{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 110px);o
 .contents{display:flex;flex-direction:column;gap:3px}.contents a{display:flex;align-items:baseline;gap:12px;padding:8px 10px;font-size:14px;border-radius:7px;color:var(--mut)}.contents a span{font:12px ui-monospace,monospace;opacity:.65}.contents a:hover,.contents .on{color:var(--acc);background:var(--acc2)}.contents .on{font-weight:650}.reference{display:block;margin:22px 10px;color:var(--mut);font-size:13px}
 .eyebrow{font-size:12px;letter-spacing:.08em;color:var(--mut);display:flex;justify-content:space-between}.progress{height:3px;background:var(--line);margin:12px 0 30px}.progress span{display:block;height:100%;background:var(--acc)}h1{font-size:clamp(28px,4vw,38px);letter-spacing:-.035em;line-height:1.3;margin:0 0 24px}h2{font-size:17px;margin:0 0 12px}.notice{font-size:14px;background:var(--acc2);border-left:3px solid var(--acc);padding:14px 18px;margin:0 0 28px;color:var(--fg)}
 .source-file{margin:22px 0}.run-details{margin:26px 0}.run-details p{font-size:14px;color:var(--mut)}summary{cursor:pointer;margin:12px 0}.output{border:1px solid var(--line);border-radius:12px;padding:20px;margin:24px 0;background:var(--panel)}.output-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}.output label{font-size:12px;min-width:0;max-width:100%}select{max-width:100%;padding:6px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:5px}.output pre{overflow:auto;max-height:350px}.output small{color:var(--mut)}.diagnostics{padding:20px;background:var(--badbg);border-radius:12px;margin:24px 0}.diagnostics code{color:var(--bad);font-weight:700}.diagnostics p{margin:4px 0 16px}.source-link{font-size:13px;color:var(--mut);text-decoration:underline}.pager{display:flex;justify-content:space-between;gap:12px;margin-top:36px;border-top:1px solid var(--line);padding-top:24px}.pager button:disabled{opacity:.4;cursor:default}.mobile-menu{display:none}.lesson{min-width:0}
-@media(max-width:820px){.tour{grid-template-columns:1fr;gap:24px;padding-top:24px}aside{position:static;max-height:none}.contents{display:none}.contents.expanded{display:flex;max-height:320px;overflow:auto}.mobile-menu{display:block;width:100%;text-align:left}.reference{display:none}.mode-switch{margin-bottom:10px}.tour-brand{margin-bottom:12px}.output{padding:14px}}
+@media(max-width:820px){.tour{grid-template-columns:1fr;gap:24px;padding-top:24px}aside{position:static;max-height:none}.ready .contents:not(.expanded){display:none}.contents{max-height:320px;overflow:auto}.ready .mobile-menu{display:block;width:100%;text-align:left}.reference{display:none}.mode-switch{margin-bottom:10px}.tour-brand{margin-bottom:12px}.output{padding:14px}}
 </style>
