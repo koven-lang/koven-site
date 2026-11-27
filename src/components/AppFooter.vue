@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {REPO} from '@/data/config'
+import {BASE} from '@/site'
 import {source} from '@/data/tour'
 </script>
 <template>
   <footer>
     <div class="w"><span>Koven · 规范快照 {{ source.version }} · {{ source.revision.slice(0, 8) }}</span><span><a :href="REPO" target="_blank" rel="noopener">GitHub</a> · <RouterLink
-        to="/tour">导览</RouterLink> · <RouterLink to="/spec">规范</RouterLink> · <a href="./koven-content-license.txt" target="_blank" rel="noopener">MIT</a></span></div>
+        to="/tour/">导览</RouterLink> · <RouterLink to="/spec/">规范</RouterLink> · <a :href="`${BASE}koven-content-license.txt`" target="_blank" rel="noopener">MIT</a></span></div>
   </footer>
 </template>
 <style scoped>

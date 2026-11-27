@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useRoute} from 'vue-router'
 import {REPO} from '@/data/config'
 
-const nav = [{to: '/', label: '首页'}, {to: '/tour', label: '语言导览'}, {to: '/spec', label: '规范'}, {to: '/api', label: 'API'}, {
-  to: '/roadmap',
+const nav = [{to: '/', label: '首页'}, {to: '/tour/', label: '语言导览'}, {to: '/spec/', label: '规范'}, {to: '/api/', label: 'API'}, {
+  to: '/roadmap/',
   label: '路线图'
 }]
 const route = useRoute()
 const isOn = (to: string) => (to === '/' ? route.path === '/' : route.path.startsWith(to))
-const dark = ref(document.documentElement.dataset.theme === 'dark')
+const dark = ref(false)
+onMounted(() => { dark.value = document.documentElement.dataset.theme === 'dark' })
 
 function toggle() {
   dark.value = !dark.value

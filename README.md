@@ -45,8 +45,7 @@ npm run dev -- --host 127.0.0.1
 - 主仓库通知工作流使用变量 `KOVEN_SITE_REPOSITORY=owner/repo` 与 secret `KOVEN_SITE_DISPATCH_TOKEN`。
   使用只对站点仓库具有 Contents write 的细粒度 token，保存在主仓库 Actions secrets，不能放入源码。
 
-hash 路由与相对资源路径支持根域名和 GitHub Pages 子路径。确定自定义域名后在 Pages 配置，
-当前不写入虚构域名或 CNAME。迁移旧 URL 时应在旧站保留跳转；本轮没有删除旧远端站点。
+构建为首页、导览章节、语言规范、教程 API 和路线图生成可直接访问的 HTML。页面和 sitemap 共用路由与内容库存，以 GitHub Pages 的 `/koven-site/` 为基路径，目录页采用尾斜杠。原有 hash 深链接会在浏览器内迁移到同一内容的新地址。生产构建会检查静态正文、规范 URL、sitemap 和站内链接。GitHub Pages 将本仓库的 robots.txt 发布在项目子路径，搜索引擎抓取规则以主机根路径为准。部署后可在 Search Console 的 `https://koven-lang.github.io/koven-site/` URL 前缀属性提交 `sitemap.xml`。
 
 ## 设计与验证
 

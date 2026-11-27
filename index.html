@@ -3,48 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Koven — Compiled Systems Programming Language · 门户与语言导览</title>
-    <meta name="description" content="Koven is a compiled systems programming language with Kotlin-inspired syntax, explicit ownership without a garbage collector, call-site borrow checking, and LLVM native code generation. 认识 Koven：从语言规范、可执行示例到实现路线图。">
-    <link rel="canonical" href="https://koven-lang.github.io/koven-site/">
+    <!--page-metadata-->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Koven">
-    <meta property="og:title" content="Koven — Compiled Systems Programming Language">
-    <meta property="og:description" content="Kotlin-inspired syntax, explicit ownership without a garbage collector, call-site loans without lifetime annotations, and LLVM native code generation.">
-    <meta property="og:url" content="https://koven-lang.github.io/koven-site/">
-    <meta property="og:image" content="https://koven-lang.github.io/koven-site/og-image.png">
     <meta property="og:image:width" content="1280">
     <meta property="og:image:height" content="640">
     <meta property="og:image:alt" content="Koven — Compiled Systems Programming Language">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Koven — Compiled Systems Programming Language">
-    <meta name="twitter:description" content="Kotlin-inspired syntax, explicit ownership without a garbage collector, call-site loans without lifetime annotations, and LLVM native code generation.">
-    <meta name="twitter:image" content="https://koven-lang.github.io/koven-site/og-image.png">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "name": "Koven",
-          "alternateName": "Koven Programming Language",
-          "url": "https://koven-lang.github.io/koven-site/",
-          "description": "Official portal, interactive language tour, API reference, and roadmap for the Koven compiled systems programming language."
-        },
-        {
-          "@type": "SoftwareSourceCode",
-          "name": "Koven",
-          "description": "Koven is a compiled systems programming language with Kotlin-inspired syntax, explicit ownership without a garbage collector, and LLVM native code generation.",
-          "url": "https://koven-lang.github.io/koven-site/",
-          "codeRepository": "https://github.com/Halckon/Koven",
-          "sameAs": [
-            "https://github.com/Halckon/Koven",
-            "https://github.com/koven-lang/koven-site"
-          ],
-          "license": "https://github.com/Halckon/Koven/blob/main/LICENSE-MIT"
-        }
-      ]
-    }
-    </script>
     <script>try {
         document.documentElement.dataset.theme = localStorage.getItem('koven-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     } catch (e) {
@@ -52,19 +17,6 @@
 </head>
 <body>
 <div id="app"></div>
-<noscript>
-    <main style="max-width:720px;margin:2rem auto;padding:0 1rem;font-family:system-ui,sans-serif;line-height:1.6">
-        <h1>Koven — Compiled Systems Programming Language</h1>
-        <p>Koven is a compiled systems programming language with Kotlin-inspired syntax, explicit ownership without a garbage collector, call-site borrow checking without lifetime annotations, and LLVM native code generation for AArch64 macOS and x86_64 Linux.</p>
-        <p>本站点需要启用 JavaScript 以浏览交互式语言导览、API 文档与路线图。你也可以直接访问以下源文档：</p>
-        <ul>
-            <li><a href="https://github.com/Halckon/Koven">GitHub Repository (Halckon/Koven)</a></li>
-            <li><a href="https://github.com/Halckon/Koven/blob/main/docs/guide/README.md">Language Specification (Guide v0.47)</a></li>
-            <li><a href="https://github.com/Halckon/Koven/blob/main/docs/tutorials/README.md">Executable Tutorial &amp; Tour</a></li>
-            <li><a href="https://github.com/Halckon/Koven/blob/main/docs/architecture/README.md">Compiler Architecture</a></li>
-        </ul>
-    </main>
-</noscript>
 <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
